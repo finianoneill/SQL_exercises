@@ -11,6 +11,17 @@ SELECT last_name, COUNT(last_name) AS last_name_count FROM actor
 GROUP BY last_name;
 
 -- 4b;
-SELECT last_name, COUNT(last_name) AS last_name_count FROM actor
-WHERE COUNT(last_name) > 1
-GROUP BY last_name;
+SELECT count.* FROM
+(SELECT last_name, COUNT(last_name) AS last_name_count FROM actor
+GROUP BY last_name) count
+WHERE count.last_name_count > 1;
+
+-- 4c;
+UPDATE actor
+SET first_name = "HARPO"
+WHERE first_name = "GROUCHO" AND last_name = "WILLIAMS";
+
+-- 4d;
+UPDATE actor
+SET first_name = "GROUCHO"
+WHERE first_name = "HARPO" AND last_name = "WILLIAMS";
