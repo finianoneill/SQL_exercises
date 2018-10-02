@@ -13,3 +13,23 @@
 -- 7h. List the top five genres in gross revenue in descending order. 
 -- (**Hint**: you may need to use the following tables: category, film_category, inventory, payment, and rental.)
 USE sakila;
+
+-- 7a;
+SELECT title FROM film
+WHERE title LIKE "K%" OR title LIKE "Q%"
+AND language_id IN (SELECT language_id FROM language
+WHERE name = "English");
+
+-- 7b;
+SELECT first_name, last_name FROM actor
+WHERE actor_id IN (SELECT actor_id FROM film_actor
+WHERE film_id IN (SELECT film_id FROM film
+WHERE title = "Alone Trip"));
+
+-- 7c;
+SELECT cust_address.first_name, cust_address.last_name, cust_address.email FROM city cit
+LEFT JOIN (SELECT c.first_name, c.last_name, c.email, c.address_id, a.city_id FROM customer c
+LEFT JOIN address a ON c.address_id = a.address_id) cust_address
+ON cit.city_id = cust_address.city_id
+WHERE cit.country_id IN (SELECT country_id FROM country
+WHERE country = "Canada");
